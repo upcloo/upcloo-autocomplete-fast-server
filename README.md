@@ -26,6 +26,30 @@ Now you can launch the server.
 
 ```
 
+## Configuration file
+
+Actually you can pass an argument to the daemon for
+read configuration from file
+
+```
+./a.out ../upcloo-search.conf
+```
+
+### Configuration example
+
+```
+# UpCloo Search Autocomplete Configuration
+bind 0.0.0.0
+port 8080
+
+# Memcached servers
+memcached.0.host 127.0.0.1
+memcached.0.port 11211
+
+memcached.1.host 192.168.2.155
+memcached.1.port 11211
+```
+
 ## Tests and Benchmarks
 
 The follow bench is a test result for a valid memcached result for word
