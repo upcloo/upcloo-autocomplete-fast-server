@@ -28,6 +28,15 @@ Now you can launch the server.
 
 ## Tests and Benchmarks
 
+The follow bench is a test result for a valid memcached result for word
+"ab" and a common response is the follow:
+
+```
+walter(["abatantuomo", "abba", "abbozzo"])
+```
+
+Now see results
+
 ```
 This is ApacheBench, Version 2.3 <$Revision: 655654 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
