@@ -35,7 +35,14 @@ The follow bench is a test result for a valid memcached result for word
 walter(["abatantuomo", "abba", "abbozzo"])
 ```
 
-Now see results
+Now see results:
+
+Virtual Machine:
+
+ * 384MB RAM
+ * One virtual CPU on MacBook White > 2009 DualCore Duo with 2GB RAM
+
+Running localhost memcached daemon with few keys
 
 ```
 This is ApacheBench, Version 2.3 <$Revision: 655654 $>
