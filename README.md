@@ -39,6 +39,11 @@ read configuration from file
 
 ```
 # UpCloo Search Autocomplete Configuration
+
+# Start as daemon
+daemonize yes
+
+# Bind address and port
 bind 0.0.0.0
 port 8080
 
