@@ -30,6 +30,7 @@ upcloo_conf *parse_user_conf(int, char **);
 struct UPCLOO_REQUEST {
 	char *sitekey;
 	char *word;
+	char *callback;
 };
 typedef struct UPCLOO_REQUEST upcloo_request;
 

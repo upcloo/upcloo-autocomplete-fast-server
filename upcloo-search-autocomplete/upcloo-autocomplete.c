@@ -49,16 +49,27 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 		proposals = memcached_get(memcached_server, key, strlen(key), &string_length, &flags, &rc);
 
 		if (proposals) {
-			evbuffer_add_printf(buffer, "%s", request->sitekey);
+			char * jsonp = (char *)malloc((strlen(request->callback)+2+strlen(proposals))*sizeof(char));
+			strcpy(jsonp, request->callback);
+			strcat(jsonp, "(");
+			strcat(jsonp, proposals);
+			strcat(jsonp, ")");
+
+			evbuffer_add_printf(buffer, "%s", jsonp);
 			evhttp_send_reply(req, HTTP_OK, "OK", buffer);
+
+			//TODO: free jsonp
+			free(jsonp);
 		} else {
 			evbuffer_add_printf(buffer, "%s", key);
 			evhttp_send_reply(req, HTTP_NOTFOUND, "MISSING CACHE", NULL);
 		}
 
 		free(request);
+		free(proposals);
+		free(key);
 	} else {
-		evhttp_send_reply(req, HTTP_BADREQUEST, "You have to set sitekey and word", NULL);
+		evhttp_send_reply(req, HTTP_BADREQUEST, "You have to set sitekey, word pattern and the JSONP callback", NULL);
 
 		//evhttp_connection_free(req->evcon);
 	}
@@ -66,6 +77,10 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 	evbuffer_free(buffer);
 }
 
+/**
+ * This function parse the uri and create a valid response.
+ * If not found NULL is returned
+ */
 char *upcloo_parse_key(const char *string, const char *search) {
 	char *result = (char *)malloc(strlen(string)*sizeof(char));
 	strcpy(result, string);
@@ -94,13 +109,15 @@ upcloo_request *parse_uri(char *uri)
 
 	char *sitekey = upcloo_parse_key(uri, "sitekey=");
 	char *word = upcloo_parse_key(uri, "word=");
+	char *callback = upcloo_parse_key(uri, "callback=");
 
-	if (sitekey == NULL || word == NULL) {
+	if (sitekey == NULL || word == NULL || callback == NULL) {
 		free(request);
 		return NULL;
 	} else {
 		request->sitekey = sitekey;
 		request->word = word;
+		request->callback = callback;
 
 		return request;
 	}
