@@ -15,6 +15,7 @@
 #define BIND "bind"
 #define MEMCACHE_HOST "memcached.%d.host"
 #define MEMCACHE_PORT "memcached.%d.port"
+#define DAEMONIZE "daemonize"
 
 /*
  * Read a configuration from file

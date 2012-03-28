@@ -49,11 +49,19 @@ void read_conf_from_file(char *path, upcloo_conf *conf)
 				strcpy(bind, v);
 				conf->bind = bind;
 			} else if ((position = strstr(line, PORT)) != NULL && position == line) {
+				//TODO: fix port rule at beginning (memcached duplicate)
 				//Port configuration
 				char *port = parse_line(position);
 				int iport = atoi(port);
 
 				conf->port = iport;
+			} else if ((position = strstr(line, DAEMONIZE)) != NULL) {
+				char *daemonize = parse_line(position);
+				if (strcmp(daemonize, "yes") == 0) {
+					conf->daemonize = 1;
+				} else {
+					conf->daemonize = 0;
+				}
 			} else {
 				//Handle multiple configuration as memcached.0.bind
 				int i=0;

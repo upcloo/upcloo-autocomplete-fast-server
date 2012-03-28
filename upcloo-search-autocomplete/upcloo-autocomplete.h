@@ -20,6 +20,8 @@ struct UPCLOO_CONF {
 	char *bind;
 	int port;
 
+	short int daemonize;
+
 	upcloo_memcached_server **memcached_servers;
 	int upcloo_memcached_server_count;
 };
@@ -35,5 +37,6 @@ struct UPCLOO_REQUEST {
 typedef struct UPCLOO_REQUEST upcloo_request;
 
 upcloo_request *parse_uri(char *);
+void daemonize(void);
 
 #endif /* UPCLOO_AUTOCOMPLETE_H_ */

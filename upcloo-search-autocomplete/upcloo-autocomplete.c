@@ -18,6 +18,10 @@
 #include <evhttp.h>
 #include <libmemcached/memcached.h>
 
+#include <unistd.h>
+#include <signal.h>
+#include <fcntl.h>
+
 #include "upcloo-conf.h"
 
 memcached_st *memcached_server;
@@ -118,8 +122,10 @@ upcloo_request *parse_uri(char *uri)
 }
 
 int main(int argc, char **argv) {
-
 	upcloo_conf *conf = parse_user_conf(argc, argv);
+
+	if (conf->daemonize == 1) daemonize();
+
 	memcached_server = memcached_create(NULL);
 
 	struct evhttp *evhttp;
@@ -170,4 +176,22 @@ upcloo_conf *parse_user_conf(int argc, char **argv)
 	}
 
 	return conf;
+}
+
+void daemonize(void)
+{
+	int fd;
+
+	if (fork() != 0) exit(0); /* parent exits */
+	setsid(); /* create a new session */
+
+	/* Every output goes to /dev/null. If Redis is daemonized but
+	 * the 'logfile' is set to 'stdout' in the configuration file
+	 * it will not log at all. */
+	if ((fd = open("/dev/null", O_RDWR, 0)) != -1) {
+		dup2(fd, STDIN_FILENO);
+		dup2(fd, STDOUT_FILENO);
+		dup2(fd, STDERR_FILENO);
+		if (fd > STDERR_FILENO) close(fd);
+	}
 }
