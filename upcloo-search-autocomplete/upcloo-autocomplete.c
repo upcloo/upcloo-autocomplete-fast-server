@@ -58,7 +58,6 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 			evbuffer_add_printf(buffer, "%s", jsonp);
 			evhttp_send_reply(req, HTTP_OK, "OK", buffer);
 
-			//TODO: free jsonp
 			free(jsonp);
 		} else {
 			evbuffer_add_printf(buffer, "%s", key);
@@ -70,8 +69,6 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 		free(key);
 	} else {
 		evhttp_send_reply(req, HTTP_BADREQUEST, "You have to set sitekey, word pattern and the JSONP callback", NULL);
-
-		//evhttp_connection_free(req->evcon);
 	}
 
 	evbuffer_free(buffer);
