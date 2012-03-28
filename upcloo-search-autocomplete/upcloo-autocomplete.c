@@ -79,6 +79,9 @@ char *upcloo_parse_key(const char *string, const char *search) {
 		if (t != NULL) {
 			*t = '\0';
 		}
+	} else {
+		free(result);
+		result = NULL;
 	}
 
 	//TODO: handle url characters
@@ -92,10 +95,15 @@ upcloo_request *parse_uri(char *uri)
 	char *sitekey = upcloo_parse_key(uri, "sitekey=");
 	char *word = upcloo_parse_key(uri, "word=");
 
-	request->sitekey = sitekey;
-	request->word = word;
+	if (sitekey == NULL || word == NULL) {
+		free(request);
+		return NULL;
+	} else {
+		request->sitekey = sitekey;
+		request->word = word;
 
-	return request;
+		return request;
+	}
 }
 
 int main(int argc, char **argv) {
