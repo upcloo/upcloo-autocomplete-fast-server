@@ -42,18 +42,13 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 
 		//Create the memcache key!
 		char *key = (char *)malloc((strlen(request->sitekey) + strlen(request->word) +2)*sizeof(char));
-		strcpy(key, request->sitekey);
-		strcat(key, "_");
-		strcat(key, request->word);
+		sprintf(key, "%s_%s", request->sitekey, request->word);
 
 		proposals = memcached_get(memcached_server, key, strlen(key), &string_length, &flags, &rc);
 
 		if (proposals) {
 			char * jsonp = (char *)malloc((strlen(request->callback)+2+strlen(proposals))*sizeof(char));
-			strcpy(jsonp, request->callback);
-			strcat(jsonp, "(");
-			strcat(jsonp, proposals);
-			strcat(jsonp, ")");
+			sprintf(jsonp, "%s(%s)", request->callback, proposals);
 
 			evbuffer_add_printf(buffer, "%s", jsonp);
 			evhttp_send_reply(req, HTTP_OK, "OK", buffer);
