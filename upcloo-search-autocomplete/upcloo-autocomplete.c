@@ -81,6 +81,7 @@ char *upcloo_parse_key(const char *string, const char *search) {
 		}
 	}
 
+	//TODO: handle url characters
 	return result;
 }
 
