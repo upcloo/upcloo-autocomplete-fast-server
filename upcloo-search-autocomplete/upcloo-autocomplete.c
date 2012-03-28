@@ -53,7 +53,7 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 			evhttp_send_reply(req, HTTP_OK, "OK", buffer);
 		} else {
 			evbuffer_add_printf(buffer, "%s", key);
-			evhttp_send_reply(req, HTTP_NOTFOUND, "MISSING CACHE", NULL);
+			evhttp_send_reply(req, HTTP_NOTFOUND, "MISSING CACHE", buffer);
 		}
 
 		free(request);
@@ -66,17 +66,39 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 	evbuffer_free(buffer);
 }
 
+char *upcloo_parse_key(const char *string, const char *search) {
+	char *result = (char *)malloc(strlen(string)*sizeof(char));
+	strcpy(result, string);
+	char *s = strstr(result, search);
+
+	if (s != NULL) {
+		strcpy(result, s);
+		result = result+strlen(search);
+
+		char *t = strchr(result, '&');
+		if (t != NULL) {
+			*t = '\0';
+		}
+	}
+
+	return result;
+}
+
 upcloo_request *parse_uri(char *uri)
 {
 	upcloo_request *request = (upcloo_request *)malloc(sizeof(upcloo_request));
 
-	request->sitekey = "th16RBthw";
-	request->word = "ab";
+	char *sitekey = upcloo_parse_key(uri, "sitekey=");
+	char *word = upcloo_parse_key(uri, "word=");
+
+	request->sitekey = sitekey;
+	request->word = word;
 
 	return request;
 }
 
 int main(int argc, char **argv) {
+
 	upcloo_conf *conf = parse_user_conf(argc, argv);
 	memcached_server = memcached_create(NULL);
 
