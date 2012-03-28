@@ -18,6 +18,8 @@
 #include <evhttp.h>
 #include <libmemcached/memcached.h>
 
+#include "upcloo-conf.h"
+
 memcached_st *memcached_server;
 
 //Main autocomplete hook (event-driven httpd)
@@ -145,6 +147,9 @@ int main(int argc, char **argv) {
 	return EXIT_SUCCESS;
 }
 
+/*
+ * Parse user configuration file
+ */
 upcloo_conf *parse_user_conf(int argc, char **argv)
 {
 	upcloo_conf *conf = (upcloo_conf *)malloc(sizeof(upcloo_conf));
@@ -161,7 +166,7 @@ upcloo_conf *parse_user_conf(int argc, char **argv)
 		conf->memcached_servers = servers;
 		conf->upcloo_memcached_server_count = 1;
 	} else {
-		//TODO: handle different configs
+		read_conf_from_file(argv[1], conf);
 	}
 
 	return conf;
