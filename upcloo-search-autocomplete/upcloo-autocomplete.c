@@ -53,12 +53,12 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 			evhttp_send_reply(req, HTTP_OK, "OK", buffer);
 		} else {
 			evbuffer_add_printf(buffer, "%s", key);
-			evhttp_send_reply(req, HTTP_NOTFOUND, "MISSING CACHE", buffer);
+			evhttp_send_reply(req, HTTP_NOTFOUND, "MISSING CACHE", NULL);
 		}
 
 		free(request);
 	} else {
-		evhttp_send_reply(req, HTTP_BADREQUEST, "You have to set sitekey and word", buffer);
+		evhttp_send_reply(req, HTTP_BADREQUEST, "You have to set sitekey and word", NULL);
 
 		//evhttp_connection_free(req->evcon);
 	}
