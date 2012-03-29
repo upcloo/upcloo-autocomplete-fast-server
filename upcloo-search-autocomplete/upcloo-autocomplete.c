@@ -104,16 +104,14 @@ char *upcloo_parse_key(const char *string, const char *search) {
 
 upcloo_request *parse_uri(char *uri)
 {
-	upcloo_request *request = (upcloo_request *)malloc(sizeof(upcloo_request));
-
 	char *sitekey = upcloo_parse_key(uri, "sitekey=");
 	char *word = upcloo_parse_key(uri, "word=");
 	char *callback = upcloo_parse_key(uri, "callback=");
 
 	if (sitekey == NULL || word == NULL || callback == NULL) {
-		free(request);
 		return NULL;
 	} else {
+		upcloo_request *request = (upcloo_request *)malloc(sizeof(upcloo_request));
 		request->sitekey = sitekey;
 		request->word = word;
 		request->callback = callback;
