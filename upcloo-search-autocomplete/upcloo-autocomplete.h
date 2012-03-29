@@ -10,7 +10,7 @@
 
 #define SITEKEY_URL "sitekey="
 #define WORD_URL "word="
-#define CALLBACK "callback="
+#define CALLBACK_URL "callback="
 
 //Memcached structure
 struct UPCLOO_MEMCACHED_SERVER {
