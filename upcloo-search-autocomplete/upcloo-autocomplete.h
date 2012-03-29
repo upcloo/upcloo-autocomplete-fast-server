@@ -8,6 +8,10 @@
 #ifndef UPCLOO_AUTOCOMPLETE_H_
 #define UPCLOO_AUTOCOMPLETE_H_
 
+#define SITEKEY_URL "sitekey="
+#define WORD_URL "word="
+#define CALLBACK "callback="
+
 //Memcached structure
 struct UPCLOO_MEMCACHED_SERVER {
 	char *host;
