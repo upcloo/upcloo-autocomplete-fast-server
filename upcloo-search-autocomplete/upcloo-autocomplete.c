@@ -80,7 +80,8 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
  * If not found NULL is returned
  */
 char *upcloo_parse_key(const char *string, const char *search) {
-	char *result = (char *)malloc(strlen(string)*sizeof(char));
+	//TODO change this part using memory dinamically allocated and not 256 fixed
+	char *result = (char *)malloc(256*sizeof(char));
 	strcpy(result, string);
 	char *s = strstr(result, search);
 
