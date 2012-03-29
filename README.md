@@ -41,8 +41,16 @@ Actually you can pass an argument to the daemon for
 read configuration from file
 
 ```
-./a.out ../upcloo-search.conf
+./autocomplete upcloo-search.conf
 ```
+
+Or you can skip completely external conf
+
+```
+./autocomplete
+```
+
+In single mode it binds the localhost at port 8080
 
 ### Configuration example
 
