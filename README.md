@@ -15,9 +15,19 @@ JSONP package for the JS sdk of UpCloo Search.
 
 ## Compile it
 
+You can use the ```Makefile```
+
 ```
-gcc -lmemcached -levent upcloo-search-autocomplete.c
+make
 ``` 
+
+For compile you need ```libevent``` and ```libmemcached```
+
+Tipical library compile
+
+```
+./configure --prefix=/usr
+```
 
 Now you can launch the server.
 
