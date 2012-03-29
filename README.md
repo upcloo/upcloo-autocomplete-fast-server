@@ -32,8 +32,7 @@ Tipical library compile
 Now you can launch the server.
 
 ```
-./a.out
-
+./autocomplete upcloo-search.conf
 ```
 
 ## Configuration file
