@@ -1,3 +1,5 @@
 upcloo-search-autocomplete/.cproject
 upcloo-search-autocomplete/.project
 upcloo-search-autocomplete/Debug/
+*.o
+autocomplete
