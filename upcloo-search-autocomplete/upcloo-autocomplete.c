@@ -47,7 +47,8 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 		uint32_t flags;
 
 		//Create the memcache key!
-		char *key = (char *)malloc((strlen(request->sitekey) + strlen(request->word) +2)*sizeof(char));
+		//TODO: fix fixed length
+		char *key = (char *)malloc(2048*sizeof(char));
 		sprintf(key, "%s_%s", request->sitekey, request->word);
 
 		proposals = memcached_get(memcached_server, key, strlen(key), &string_length, &flags, &rc);
