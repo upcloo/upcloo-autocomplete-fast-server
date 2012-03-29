@@ -104,9 +104,9 @@ char *upcloo_parse_key(const char *string, const char *search) {
 
 upcloo_request *parse_uri(char *uri)
 {
-	char *sitekey = upcloo_parse_key(uri, "sitekey=");
-	char *word = upcloo_parse_key(uri, "word=");
-	char *callback = upcloo_parse_key(uri, "callback=");
+	char *sitekey = upcloo_parse_key(uri, SITEKEY_URL);
+	char *word = upcloo_parse_key(uri, WORD_URL);
+	char *callback = upcloo_parse_key(uri, CALLBACK_URL);
 
 	if (sitekey == NULL || word == NULL || callback == NULL) {
 		return NULL;
