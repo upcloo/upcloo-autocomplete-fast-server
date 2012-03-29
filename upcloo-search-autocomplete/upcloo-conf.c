@@ -34,6 +34,13 @@ void read_conf_from_file(char *path, upcloo_conf *conf)
 	FILE *file = fopen(path, "r");
 
 	if (file) {
+		//Handle multiple configuration as memcached.0.bind
+		int i=0;
+		upcloo_memcached_server **servers = (upcloo_memcached_server **)malloc(10 * sizeof(upcloo_memcached_server *));
+		for(i=0; i<10; i++) {
+			servers[i] = (upcloo_memcached_server *)malloc(sizeof(upcloo_memcached_server));
+		}
+		conf->memcached_servers = servers;
 
 		char *line = (char *)malloc(LINE_LEN * sizeof(char));
 		while(fgets(line, LINE_LEN, file) != NULL) {
@@ -63,14 +70,7 @@ void read_conf_from_file(char *path, upcloo_conf *conf)
 					conf->daemonize = 0;
 				}
 			} else {
-				//Handle multiple configuration as memcached.0.bind
-				int i=0;
-				upcloo_memcached_server **servers = (upcloo_memcached_server **)malloc(10 * sizeof(upcloo_memcached_server *));
-				for(i=0; i<10; i++) {
-					servers[i] = (upcloo_memcached_server *)malloc(sizeof(upcloo_memcached_server));
-				}
-				conf->memcached_servers = servers;
-
+				int i;
 				for (i=0; ;i++) {
 					char *memline = (char *)malloc(strlen(line) * sizeof(char));
 					short int exit = 0;
