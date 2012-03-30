@@ -55,7 +55,11 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 
 		if (proposals) {
 			char * jsonp = (char *)malloc(2048*sizeof(char));
-			sprintf(jsonp, "%s(%s)", request->callback, proposals);
+			if (request->callback != NULL)  {
+				sprintf(jsonp, "%s(%s)", request->callback, proposals);
+			} else {
+				sprintf(jsonp, "%s", proposals);
+			}
 
 			evbuffer_add_printf(buffer, "%s", jsonp);
 			evhttp_send_reply(req, HTTP_OK, "OK", buffer);
@@ -109,7 +113,7 @@ upcloo_request *parse_uri(char *uri)
 	char *word = upcloo_parse_key(uri, WORD_URL);
 	char *callback = upcloo_parse_key(uri, CALLBACK_URL);
 
-	if (sitekey == NULL || word == NULL || callback == NULL) {
+	if (sitekey == NULL || word == NULL) {
 		return NULL;
 	} else {
 		upcloo_request *request = (upcloo_request *)malloc(sizeof(upcloo_request));
