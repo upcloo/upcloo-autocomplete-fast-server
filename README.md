@@ -40,7 +40,7 @@ Now you can launch the server.
 On Debian you can use the apt-get
 
 ```
-apt-get install libevent-dev libmemcached-d
+apt-get install libevent-dev libmemcached-dev
 ```
 
 After that you can compile and install UpCloo Autocomplete
