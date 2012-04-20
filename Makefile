@@ -4,7 +4,7 @@ PREFIX=/usr/local
 
 CC=gcc
 CFLAGS=-Wall -levent -lmemcached
-autocomplete: upcloo-search-autocomplete/upcloo-autocomplete.o upcloo-search-autocomplete/upcloo-conf.o
+all: upcloo-search-autocomplete/upcloo-autocomplete.o upcloo-search-autocomplete/upcloo-conf.o
 	$(CC) $(CFLAGS) upcloo-search-autocomplete/upcloo-autocomplete.o upcloo-search-autocomplete/upcloo-conf.o -o autocomplete
 
 clean: 
