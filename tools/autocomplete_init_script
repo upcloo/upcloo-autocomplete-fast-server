@@ -14,13 +14,8 @@ case "$1" in
         $EXEC $CONF
         ;;
     stop)
-        if [ ! -f $PIDFILE ]
-        then
-                echo "$PIDFILE does not exist, process is not running"
-        ;;
-        else
-                killall autocomplete
-        fi
+#TODO: check if not running
+        killall autocomplete
         ;;
     *)
         echo "Please use start or stop as first argument"
