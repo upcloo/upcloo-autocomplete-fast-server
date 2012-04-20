@@ -1,6 +1,7 @@
 #Makefile for UpCloo Autocomplete Search
 
 PREFIX=/usr/local
+PREFIX_BIN=${PREFIX}/bin
 
 CC=gcc
 CFLAGS=-Wall -levent -lmemcached
@@ -11,4 +12,4 @@ clean:
 	rm -f upcloo-search-autocomplete/upcloo-autocomplete.o upcloo-search-autocomplete/upcloo-conf.o
 
 install: all
-	cp autocomplete $PREFIX/bin
+	cp autocomplete ${PREFIX_BIN}
