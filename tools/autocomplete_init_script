@@ -16,6 +16,7 @@ case "$1" in
         if [ ! -f $PIDFILE ]
         then
                 echo "$PIDFILE does not exist, process is not running"
+        ;;
         else
                 killall autocomplete
         fi
