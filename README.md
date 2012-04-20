@@ -35,6 +35,24 @@ Now you can launch the server.
 ./autocomplete upcloo-search.conf
 ```
 
+### Debian Install
+
+On Debian you can use the apt-get
+
+```
+apt-get install libevent-dev libmemcached-d
+```
+
+After that you can compile and install UpCloo Autocomplete
+
+```
+make && make install
+```
+
+The install copy the application under ```/usr/local/bin```, create a 
+folder under ```/etc``` with a default configuration and after that
+update the rc configuration for start on boot.
+
 ## Configuration file
 
 Actually you can pass an argument to the daemon for
