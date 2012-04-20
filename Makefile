@@ -22,4 +22,5 @@ install: all
 	mkdir -p ${CONF_DIR}
 	cp upcloo-search.conf ${CONF_DIR}/${PORT}.conf
 	cp tools/autocomplete_init_script ${INIT_DIR}/autocomplete
+	chmod a+x ${INIT_DIR}/autocomplete
 	update-rc.d autocomplete defaults
