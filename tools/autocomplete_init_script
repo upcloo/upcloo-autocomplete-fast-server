@@ -12,6 +12,7 @@ case "$1" in
     start)
 #TODO: check if already running
         $EXEC $CONF
+        ;;
     stop)
         if [ ! -f $PIDFILE ]
         then
