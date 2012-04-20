@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# Simple Autocomplete init.d script conceived to work on Linux systems
+#
+
+PORT=8080
+EXEC=/usr/local/bin/autocomplete
+
+CONF="/etc/autocomplete/${PORT}.conf"
+
+case "$1" in
+    start)
+#TODO: check if already running
+        $EXEC $CONF
+    stop)
+        if [ ! -f $PIDFILE ]
+        then
+                echo "$PIDFILE does not exist, process is not running"
+        else
+                killall autocomplete
+        fi
+        ;;
+    *)
+        echo "Please use start or stop as first argument"
+        ;;
+esac
