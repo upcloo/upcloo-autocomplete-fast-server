@@ -90,6 +90,11 @@ memcached.1.host 192.168.2.155
 memcached.1.port 11211
 ```
 
+## Log generation
+
+UpCloo autocomplete server uses Syslog as system logs. Have a look for
+your system log for check server flow.
+
 ## Tests and Benchmarks
 
 The follow bench is a test result for a valid memcached result for word
