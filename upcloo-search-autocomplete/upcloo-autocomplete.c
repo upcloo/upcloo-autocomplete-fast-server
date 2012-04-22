@@ -144,13 +144,19 @@ void autocompleteLogRaw(int level, const char *fmt, ...) {
 }
 
 int main(int argc, char **argv) {
-	upcloo_conf *conf = parse_user_conf(argc, argv);
+	conf = parse_user_conf(argc, argv);
 
 	openlog(SYSLOG_IDENTITY, LOG_PID | LOG_NDELAY | LOG_NOWAIT, LOG_INFO);
 
+	//Ignore sigup
+	signal(SIGHUP, SIG_IGN);
+
+	//Check for daemons
 	if (conf->daemonize == 1) {
 		autocompleteLogRaw(LOG_INFO, "Start as daemon.");
 		daemonize();
+		//createPidFile(conf->pidfile);
+		//setupSignalHandlers();
 	}
 
 	memcached_server = memcached_create(NULL);
@@ -221,4 +227,43 @@ void daemonize(void)
 		dup2(fd, STDERR_FILENO);
 		if (fd > STDERR_FILENO) close(fd);
 	}
+}
+
+/**
+ * Create the PID file at position
+ */
+void createPidFile(char *pidPath)
+{
+	autocompleteLogRaw(LOG_INFO, "Create a PID process file...");
+    /* Try to write the pid file in a best-effort way. */
+    FILE *fp = fopen(pidPath,"w");
+    if (fp) {
+        fprintf(fp,"%d\n",(int)getpid());
+        fclose(fp);
+    }
+}
+
+/**
+ * Remove the PID file at position
+ */
+void autocompleteShutdown(char *pidPath)
+{
+	autocompleteLogRaw(LOG_WARNING, "Autocomplete Server Shutdown...");
+	unlink(pidPath);
+}
+
+void terminationHandler(int signum)
+{
+	if (conf->daemonize == 1) {
+		autocompleteShutdown(conf->pidfile);
+	}
+}
+
+void setupSignalHandlers(void) {
+    struct sigaction act;
+
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    act.sa_handler = terminationHandler;
+    sigaction(SIGTERM, &act, NULL);
 }

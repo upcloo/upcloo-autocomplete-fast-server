@@ -29,10 +29,13 @@ struct UPCLOO_CONF {
 
 	short int daemonize;
 
+	char *pidfile;
+
 	upcloo_memcached_server **memcached_servers;
 	int upcloo_memcached_server_count;
 };
 typedef struct UPCLOO_CONF upcloo_conf;
+upcloo_conf *conf;
 
 upcloo_conf *parse_user_conf(int, char **);
 
@@ -43,9 +46,18 @@ struct UPCLOO_REQUEST {
 };
 typedef struct UPCLOO_REQUEST upcloo_request;
 
+// Parse configuration file
 upcloo_request *parse_uri(char *);
+// Run as daemon
 void daemonize(void);
-
+// Write down log information
 void autocompleteLogRaw(int, const char *, ...);
-
+// Create the PID file
+void createPidFile(char *);
+// Shutdown the server
+void autocompleteShutdown(char *);
+// Termination handling
+void terminationHandler(int);
+// Setup signal handler for shutting down the server
+void setupSignalHandlers(void);
 #endif /* UPCLOO_AUTOCOMPLETE_H_ */

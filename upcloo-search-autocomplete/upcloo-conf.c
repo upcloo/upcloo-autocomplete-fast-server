@@ -54,6 +54,7 @@ void read_conf_from_file(char *path, upcloo_conf *conf)
 				char *v = parse_line(position);
 				char *bind = (char *)malloc(strlen(v) * sizeof(char));
 				strcpy(bind, v);
+
 				conf->bind = bind;
 			} else if ((position = strstr(line, PORT)) != NULL && position == line) {
 				//TODO: fix port rule at beginning (memcached duplicate)
@@ -62,6 +63,12 @@ void read_conf_from_file(char *path, upcloo_conf *conf)
 				int iport = atoi(port);
 
 				conf->port = iport;
+			} else if ((position = strstr(line, PIDFILE)) != NULL) {
+				char *v = parse_line(position);
+				char *pidfile = (char *)malloc(strlen(v) * sizeof(char));
+				strcpy(pidfile, v);
+
+				conf->pidfile = pidfile;
 			} else if ((position = strstr(line, DAEMONIZE)) != NULL) {
 				char *daemonize = parse_line(position);
 				if (strcmp(daemonize, "yes") == 0) {

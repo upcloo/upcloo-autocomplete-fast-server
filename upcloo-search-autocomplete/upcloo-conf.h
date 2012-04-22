@@ -13,6 +13,7 @@
 #define LINE_LEN 1024
 #define PORT "port"
 #define BIND "bind"
+#define PIDFILE "pidfile"
 #define MEMCACHE_HOST "memcached.%d.host"
 #define MEMCACHE_PORT "memcached.%d.port"
 #define DAEMONIZE "daemonize"
