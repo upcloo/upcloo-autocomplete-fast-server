@@ -148,6 +148,7 @@ int main(int argc, char **argv) {
 
 	openlog(SYSLOG_IDENTITY, LOG_PID | LOG_NDELAY | LOG_NOWAIT, LOG_INFO);
 
+	signal(SIGHUP, SIG_IGN);
 	if (conf->daemonize == 1) {
 		autocompleteLogRaw(LOG_INFO, "Start as daemon.");
 		daemonize();
