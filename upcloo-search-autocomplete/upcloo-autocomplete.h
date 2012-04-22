@@ -12,6 +12,9 @@
 #define WORD_URL "word="
 #define CALLBACK_URL "callback="
 
+#define LOG_MAX_ENTRY_LEN 1024
+#define SYSLOG_IDENTITY "upcloo-autocomplete"
+
 //Memcached structure
 struct UPCLOO_MEMCACHED_SERVER {
 	char *host;
@@ -42,5 +45,7 @@ typedef struct UPCLOO_REQUEST upcloo_request;
 
 upcloo_request *parse_uri(char *);
 void daemonize(void);
+
+void autocompleteLogRaw(int, const char *);
 
 #endif /* UPCLOO_AUTOCOMPLETE_H_ */
