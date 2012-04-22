@@ -46,6 +46,6 @@ typedef struct UPCLOO_REQUEST upcloo_request;
 upcloo_request *parse_uri(char *);
 void daemonize(void);
 
-void autocompleteLogRaw(int, const char *);
+void autocompleteLogRaw(int, const char *, ...);
 
 #endif /* UPCLOO_AUTOCOMPLETE_H_ */

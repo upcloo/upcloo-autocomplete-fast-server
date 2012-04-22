@@ -63,16 +63,14 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 				sprintf(jsonp, "%s", proposals);
 			}
 
-			autocompleteLogRaw(LOG_INFO, "User request served successfully.");
+			autocompleteLogRaw(LOG_INFO, "User %s:%d request served successfully.", req->remote_host, req->remote_port);
 
 			evbuffer_add_printf(buffer, "%s", jsonp);
 			evhttp_send_reply(req, HTTP_OK, "OK", buffer);
 
 			free(jsonp);
 		} else {
-			char msg[LOG_MAX_ENTRY_LEN];
-			sprintf(msg, "Missing cache %s", key);
-			autocompleteLogRaw(LOG_ERR, msg);
+			autocompleteLogRaw(LOG_ERR, "Missing cache \"%s\" for user %s:%d", key, req->remote_host, req->remote_port);
 			evbuffer_add_printf(buffer, "%s", key);
 			evhttp_send_reply(req, HTTP_NOTFOUND, "MISSING CACHE", NULL);
 		}
@@ -81,9 +79,7 @@ void upcloo_autocomplete_handler(struct evhttp_request *req, void *arg) {
 		free(proposals);
 		free(key);
 	} else {
-		char msg[LOG_MAX_ENTRY_LEN];
-		sprintf(msg, "You have to set sitekey, word pattern and the JSONP callback for request: %s", req->uri);
-		autocompleteLogRaw(LOG_CRIT, msg);
+		autocompleteLogRaw(LOG_CRIT, "User %s:%d have to set sitekey, word pattern and the JSONP callback for request: %s", req->remote_host, req->remote_port, req->uri);
 
 		evhttp_send_reply(req, HTTP_BADREQUEST, "You have to set sitekey, word pattern and the JSONP callback", NULL);
 	}
@@ -136,8 +132,15 @@ upcloo_request *parse_uri(char *uri)
 	}
 }
 
-void autocompleteLogRaw(int level, const char *message) {
-	syslog(level, "%s", message);
+void autocompleteLogRaw(int level, const char *fmt, ...) {
+	char msg[LOG_MAX_ENTRY_LEN];
+	va_list ap;
+
+	va_start(ap, fmt);
+	vsnprintf(msg, sizeof(msg), fmt, ap);
+	va_end(ap);
+
+	syslog(level, "%s", msg);
 }
 
 int main(int argc, char **argv) {
@@ -158,9 +161,7 @@ int main(int argc, char **argv) {
 	int index;
 	//Add memcached servers
 	for (index = 0; index<conf->upcloo_memcached_server_count; index++) {
-		char msg[LOG_MAX_ENTRY_LEN];
-		sprintf(msg, "Added a memcached server %s:%d", conf->memcached_servers[index]->host, conf->memcached_servers[index]->port);
-		autocompleteLogRaw(LOG_INFO, msg);
+		autocompleteLogRaw(LOG_INFO, "Added a memcached server %s:%d", conf->memcached_servers[index]->host, conf->memcached_servers[index]->port);
 		memcached_server_add(
 				memcached_server,
 				conf->memcached_servers[index]->host,
